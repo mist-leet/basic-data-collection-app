@@ -133,5 +133,43 @@ namespace TraineeDataCollection.Controllers
                 return RedirectToAction("Home", "Form");
             }
         }
+
+        [HttpGet]
+        [Authorize(Roles = "admin, user")]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+            using (UserContext db = new UserContext())
+            {
+                TraineeForm form = db.TraineeForms.Find(id);
+                if (form == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(form);
+            }
+        }
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+            using (UserContext db = new UserContext())
+            {
+                TraineeForm form = db.TraineeForms.Find(id);
+                if (form == null)
+                {
+                    return HttpNotFound();
+                }
+                db.TraineeForms.Remove(form);
+                db.SaveChanges();
+                return RedirectToAction("Home", "Form");
+            }
+        }
     }
 }

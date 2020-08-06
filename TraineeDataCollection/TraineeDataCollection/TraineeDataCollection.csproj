@@ -184,6 +184,7 @@
     <Content Include="Views\Form\Home.cshtml" />
     <Content Include="Views\Form\Show.cshtml" />
     <Content Include="Views\Form\Edit.cshtml" />
+    <Content Include="Views\Form\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

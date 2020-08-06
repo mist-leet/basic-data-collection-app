@@ -1,0 +1,135 @@
+﻿@model TraineeDataCollection.Models.TraineeForm
+
+@{
+    ViewBag.Title = "Удаление";
+}
+
+<h2>Удаление формы</h2>
+
+<h3>Вы уверены, что хотите удалить форму?</h3>
+<div>
+    <h4>TraineeForm</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.HiddenFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.HiddenFor(model => model.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NameOfTheUniversity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameOfTheUniversity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UniversityCourse)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UniversityCourse)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Faculty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Faculty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Info)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Info)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChangeDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChangeDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FormCreater)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FormCreater)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AuthorOfLastChange)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AuthorOfLastChange)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" />
+        </div>
+    }
+</div>
