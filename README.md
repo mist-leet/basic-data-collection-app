@@ -1,7 +1,6 @@
-# basic-data-collection-app
 Тестовое задание на вакансию "Стажер на корпоративные WEB-решения(тех. поддержка корпоративного портала на базе MS SharePoint и web приложений)"
 
-Приложение реализовано на базе Microsoft ASP.NET MVC
+Приложение реализовано на базе Microsoft ASP.NET MVC.
 Дополнительно из NuGet Packages установлено EntityFramework.
 
 Реализована система авторизации и аутентификации (basic-data-collection-app/TraineeDataCollection/TraineeDataCollection/Providers/CustomRoleProvider.cs)
