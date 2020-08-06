@@ -16,13 +16,25 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Test Task Application", "Home", "Form", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("admin"))
+                        {
+                            <li>@Html.ActionLink("Показать все", "Show", "Form")</li>
+                            <li>@Html.ActionLink("Добавить форму", "Add", "Form")</li>
+                        }
+                        if (User.IsInRole("user"))
+                        {
+                            <li>@Html.ActionLink("Создать форму", "Add", "Form")</li>
+                            <li>@Html.ActionLink("Редактировать форму", "Add", "Form")</li>
+                            <li>@Html.ActionLink("Показать форму", "Show", "Form")</li>
+                            <li>@Html.ActionLink("Утвердить", "", "")</li>
+                        }
+                    }
                 </ul>
             </div>
         </div>

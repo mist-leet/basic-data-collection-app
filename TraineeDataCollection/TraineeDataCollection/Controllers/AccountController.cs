@@ -32,7 +32,7 @@ namespace TraineeDataCollection.Controllers
                 if (user != null)
                 {
                     FormsAuthentication.SetAuthCookie(model.Name, true);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Home", "Form");
                 }
                 else
                 {
@@ -61,12 +61,12 @@ namespace TraineeDataCollection.Controllers
                 {
                     user = db.Users.FirstOrDefault(u => u.Email == model.Name);
                 }
-
+                    
                 if (user == null)
                 {
                     using (UserContext db = new UserContext())
                     {
-                        db.Users.Add(new User() { Email = model.Name, Password = model.Password, RoleId=2 });
+                        db.Users.Add(new User() { Email = model.Name, Password = model.Password, RoleId=2, TraineeForm = TraineeForm.GetEmpty() });
                         db.SaveChanges();
 
                         user = db.Users.Where(u => u.Email == model.Name && u.Password == model.Password).FirstOrDefault();
@@ -75,7 +75,7 @@ namespace TraineeDataCollection.Controllers
                     if (user != null)
                     {
                         FormsAuthentication.SetAuthCookie(model.Name, true);
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Home", "Form");
                     }
                     else
                     {

@@ -15,6 +15,7 @@ namespace TraineeDataCollection.Models
 
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<TraineeForm> TraineeForms { get; set; }
     }
 
     public class UserDbInitializer : DropCreateDatabaseAlways<UserContext>
@@ -24,12 +25,22 @@ namespace TraineeDataCollection.Models
             context.Roles.Add(new Role { Id = 1, Name = "admin" });
             context.Roles.Add(new Role { Id = 2, Name = "user" });
 
+            context.TraineeForms.Add(new TraineeForm() {TraineeFormId = 0, CreateDate = DateTime.Now, ChangeDate = DateTime.Now});
+
             context.Users.Add(new User
             {
                 Id = 1,
                 Email = "admin",
                 Password = "admin",
                 RoleId = 1  
+            });
+
+            context.Users.Add(new User
+            {
+                Id = 1,
+                Email = "user",
+                Password = "user",
+                RoleId = 2
             });
 
             base.Seed(context);
