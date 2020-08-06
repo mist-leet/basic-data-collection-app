@@ -153,6 +153,7 @@ namespace TraineeDataCollection.Controllers
             }
         }
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "admin, user")]
         public ActionResult DeleteConfirmed(int? id)
         {
             if (id == null)
