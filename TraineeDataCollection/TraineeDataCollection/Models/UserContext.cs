@@ -25,8 +25,6 @@ namespace TraineeDataCollection.Models
             context.Roles.Add(new Role { Id = 1, Name = "admin" });
             context.Roles.Add(new Role { Id = 2, Name = "user" });
 
-            context.TraineeForms.Add(new TraineeForm());
-
             context.Users.Add(new User
             {
                 Id = 1,

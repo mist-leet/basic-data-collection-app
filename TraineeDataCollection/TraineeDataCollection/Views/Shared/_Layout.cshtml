@@ -16,7 +16,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Test Task Application", "Home", "Form", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Система записи на стажировку", "Home", "Form", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -30,7 +30,6 @@
                         if (User.IsInRole("user"))
                         {
                             <li>@Html.ActionLink("Создать форму", "Add", "Form")</li>
-                            <li>@Html.ActionLink("Редактировать форму", "Edit", "Form")</li>
                             <li>@Html.ActionLink("Показать форму", "Show", "Form")</li>
                             <li>@Html.ActionLink("Утвердить", "", "")</li>
                         }

@@ -38,9 +38,6 @@ namespace TraineeDataCollection.Controllers
                         return RedirectToAction("Home", "Form");
                     }
                 }
-                //var forms = db.TraineeForms.Include(a => a.User).Where(b => b.UserId == user.Id).ToList();
-
-                
             }
             return View();
         }
@@ -54,63 +51,31 @@ namespace TraineeDataCollection.Controllers
             {
                 using (UserContext db = new UserContext())
                 {
-                    if (User.IsInRole("user"))
+                    TraineeForm currentForm = new TraineeForm()
                     {
-                        TraineeForm currentForm = new TraineeForm()
-                        {
-                            //TraineeFormId = form.TraineeFormId,
-                            Name = form.Name,
-                            Surname = form.Surname,
-                            MiddleName = form.MiddleName,
-                            NameOfTheUniversity = form.NameOfTheUniversity,
-                            UniversityCourse = form.UniversityCourse,
-                            Faculty = form.Faculty,
-                            Phone = form.Phone,
-                            Email = form.Email,
-                            Info = form.Info,
-                        };
+                        Name = form.Name,
+                        Surname = form.Surname,
+                        MiddleName = form.MiddleName,
+                        NameOfTheUniversity = form.NameOfTheUniversity,
+                        UniversityCourse = form.UniversityCourse,
+                        Faculty = form.Faculty,
+                        Phone = form.Phone,
+                        Email = form.Email,
+                        Info = form.Info,
+                    };
 
-                        currentForm.CreateDate = DateTime.Now;
-                        currentForm.ChangeDate = DateTime.Now;
-                        currentForm.FormCreater = User.Identity.Name;
-                        currentForm.AuthorOfLastChange = User.Identity.Name;
+                    currentForm.CreateDate = DateTime.Now;
+                    currentForm.ChangeDate = DateTime.Now;
+                    currentForm.FormCreater = User.Identity.Name;
+                    currentForm.AuthorOfLastChange = User.Identity.Name;
 
-                        User user = db.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
+                    User user = db.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
 
-                        db.TraineeForms.Add(currentForm);
-                        user.TraineeForms.Add(currentForm);
+                    db.TraineeForms.Add(currentForm);
+                    user.TraineeForms.Add(currentForm);
 
-                        db.SaveChanges();
-                        return RedirectToAction("Home", "Form");
-                    }
-                    if (User.IsInRole("admin"))
-                    {
-                        TraineeForm currentForm = new TraineeForm()
-                        {
-                            Name = form.Name,
-                            Surname = form.Surname,
-                            MiddleName = form.MiddleName,
-                            NameOfTheUniversity = form.NameOfTheUniversity,
-                            UniversityCourse = form.UniversityCourse,
-                            Faculty = form.Faculty,
-                            Phone = form.Phone,
-                            Email = form.Email,
-                            Info = form.Info,
-                        };
-
-                        currentForm.CreateDate = DateTime.Now;
-                        currentForm.FormCreater = User.Identity.Name;
-                        currentForm.AuthorOfLastChange = User.Identity.Name;
-
-                        currentForm.ChangeDate = DateTime.Now;
-                        User user = db.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
-
-                        db.TraineeForms.Add(currentForm);
-                        user.TraineeForms.Add(currentForm);
-
-                        db.SaveChanges();
-                        return RedirectToAction("Home", "Form");
-                    }
+                    db.SaveChanges();
+                    return RedirectToAction("Home", "Form");
                 }
             }
             return View(form);

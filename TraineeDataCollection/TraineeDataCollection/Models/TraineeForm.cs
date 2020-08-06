@@ -12,8 +12,6 @@ namespace TraineeDataCollection.Models
 
         public int? UserId { get; set; }
         public User User { get; set; }
-        //public User User { get; set; }
-        //public int TraineeFormId { get; set; }
         [Display(Name="Имя")]
         public string Name { get; set; }
         [Display(Name = "Фамилия")]
