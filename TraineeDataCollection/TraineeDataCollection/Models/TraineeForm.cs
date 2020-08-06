@@ -9,8 +9,11 @@ namespace TraineeDataCollection.Models
     public class TraineeForm
     {
         public int Id{ get; set; }
+
+        public int? UserId { get; set; }
+        public User User { get; set; }
         //public User User { get; set; }
-        public int TraineeFormId { get; set; }
+        //public int TraineeFormId { get; set; }
         [Display(Name="Имя")]
         public string Name { get; set; }
         [Display(Name = "Фамилия")]
@@ -38,9 +41,10 @@ namespace TraineeDataCollection.Models
         [Display(Name = "Последний раз изменено")]
         public string AuthorOfLastChange { get; set; }
 
-        public static TraineeForm GetEmpty()
+        public TraineeForm()
         {
-            return new TraineeForm() { ChangeDate = DateTime.Now, CreateDate = DateTime.Now };
+            ChangeDate = DateTime.Now;
+            CreateDate = DateTime.Now;
         }
     }
 }

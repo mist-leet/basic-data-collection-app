@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,16 +11,16 @@ namespace TraineeDataCollection.Controllers
 {
     public class FormController : Controller
     {
+        [Authorize(Roles = "admin, user")]
         public ActionResult Home()
         {
             return View();
         }
-        
-        [Authorize(Roles = "admin, user")]
 
+        [Authorize(Roles = "admin, user")]
         public ActionResult Add()
         {
-            
+
             if (User.IsInRole("user"))
             {
                 User user = null;
@@ -27,31 +28,37 @@ namespace TraineeDataCollection.Controllers
                 using (UserContext db = new UserContext())
                 {
                     user = db.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
+
+                    if (db.TraineeForms.Include(a => a.User).Where(b => b.UserId == user.Id).ToList().Count == 0)
+                    {
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Home", "Form");
+                    }
                 }
-                if (user.TraineeForm == null)
-                {
-                    return View();
-                }
-                else
-                {
-                    return RedirectToAction("Home", "Form");
-                }
+                //var forms = db.TraineeForms.Include(a => a.User).Where(b => b.UserId == user.Id).ToList();
+
+                
             }
             return View();
         }
 
+        // TODO: simplify
         [HttpPost]
+        [Authorize(Roles = "admin, user")]
         public ActionResult Add(TraineeForm form)
         {
             if (ModelState.IsValid)
             {
                 using (UserContext db = new UserContext())
                 {
-                    if (User.Identity.Name == "user")
+                    if (User.IsInRole("user"))
                     {
                         TraineeForm currentForm = new TraineeForm()
                         {
-                            TraineeFormId = form.TraineeFormId,
+                            //TraineeFormId = form.TraineeFormId,
                             Name = form.Name,
                             Surname = form.Surname,
                             MiddleName = form.MiddleName,
@@ -63,28 +70,53 @@ namespace TraineeDataCollection.Controllers
                             Info = form.Info,
                         };
 
+                        currentForm.CreateDate = DateTime.Now;
+                        currentForm.ChangeDate = DateTime.Now;
+                        currentForm.FormCreater = User.Identity.Name;
+                        currentForm.AuthorOfLastChange = User.Identity.Name;
+
                         User user = db.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
 
-                        if (user.TraineeForm == null)
-                        {
-                            currentForm.CreateDate = DateTime.Now;
-                            currentForm.ChangeDate = DateTime.Now;
-                            currentForm.FormCreater = User.Identity.Name;
-                            currentForm.AuthorOfLastChange = User.Identity.Name;
-                        }
-                        user.TraineeForm = currentForm;
-
                         db.TraineeForms.Add(currentForm);
+                        user.TraineeForms.Add(currentForm);
+
                         db.SaveChanges();
                         return RedirectToAction("Home", "Form");
                     }
-                    
+                    if (User.IsInRole("admin"))
+                    {
+                        TraineeForm currentForm = new TraineeForm()
+                        {
+                            Name = form.Name,
+                            Surname = form.Surname,
+                            MiddleName = form.MiddleName,
+                            NameOfTheUniversity = form.NameOfTheUniversity,
+                            UniversityCourse = form.UniversityCourse,
+                            Faculty = form.Faculty,
+                            Phone = form.Phone,
+                            Email = form.Email,
+                            Info = form.Info,
+                        };
+
+                        currentForm.CreateDate = DateTime.Now;
+                        currentForm.FormCreater = User.Identity.Name;
+                        currentForm.AuthorOfLastChange = User.Identity.Name;
+
+                        currentForm.ChangeDate = DateTime.Now;
+                        User user = db.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
+
+                        db.TraineeForms.Add(currentForm);
+                        user.TraineeForms.Add(currentForm);
+
+                        db.SaveChanges();
+                        return RedirectToAction("Home", "Form");
+                    }
                 }
             }
             return View(form);
         }
 
-        [Authorize(Roles ="admin, user")]
+        [Authorize(Roles = "admin, user")]
         public ActionResult Show()
         {
             using (UserContext db = new UserContext())
@@ -92,12 +124,48 @@ namespace TraineeDataCollection.Controllers
                 User user = db.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
                 if (User.IsInRole("admin"))
                 {
-                    return View(db.TraineeForms.ToList()); 
+                    //var forms = db.TraineeForms.Include(a => a.User).Where(b => b.UserId == user.Id).ToList();
+                    return View(db.TraineeForms.ToList());
                 }
-                else
+                else if (User.IsInRole("user"))
                 {
-                    return View(db.TraineeForms.Find(user.Id));
+                    var forms = db.TraineeForms.Include(a => a.User).Where(b => b.UserId == user.Id).ToList();
+                    return View(forms);
                 }
+            }
+            return View();
+        }
+
+        [Authorize(Roles = "admin, user")]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            using (UserContext db = new UserContext())
+            {
+                TraineeForm form = db.TraineeForms.Find(id);
+                if (form != null)
+                {
+                    return View(form);
+                }
+            }
+            return HttpNotFound();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin, user")]
+        public ActionResult Edit(TraineeForm form)
+        {
+            using (UserContext db = new UserContext())
+            {
+                db.Entry(form).State = EntityState.Modified;
+                form.AuthorOfLastChange = User.Identity.Name;
+                form.ChangeDate = DateTime.Now;
+                db.SaveChanges();
+                return RedirectToAction("Home", "Form");
             }
         }
     }

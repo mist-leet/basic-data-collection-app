@@ -66,7 +66,7 @@ namespace TraineeDataCollection.Controllers
                 {
                     using (UserContext db = new UserContext())
                     {
-                        db.Users.Add(new User() { Email = model.Name, Password = model.Password, RoleId=2, TraineeForm = TraineeForm.GetEmpty() });
+                        db.Users.Add(new User() { Email = model.Name, Password = model.Password, RoleId=2});
                         db.SaveChanges();
 
                         user = db.Users.Where(u => u.Email == model.Name && u.Password == model.Password).FirstOrDefault();

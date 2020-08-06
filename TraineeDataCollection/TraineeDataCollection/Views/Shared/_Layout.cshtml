@@ -30,11 +30,14 @@
                         if (User.IsInRole("user"))
                         {
                             <li>@Html.ActionLink("Создать форму", "Add", "Form")</li>
-                            <li>@Html.ActionLink("Редактировать форму", "Add", "Form")</li>
+                            <li>@Html.ActionLink("Редактировать форму", "Edit", "Form")</li>
                             <li>@Html.ActionLink("Показать форму", "Show", "Form")</li>
                             <li>@Html.ActionLink("Утвердить", "", "")</li>
                         }
                     }
+
+                    <li>@Html.ActionLink("Войти", "Login", "Account")</li>
+                    <li>@Html.ActionLink("Зарегистрироваться", "Register", "Account")</li>
                 </ul>
             </div>
         </div>

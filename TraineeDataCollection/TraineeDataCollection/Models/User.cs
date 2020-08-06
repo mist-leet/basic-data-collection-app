@@ -17,7 +17,12 @@ namespace TraineeDataCollection.Models
         public int RoleId { get; set; }
         public Role Role { get; set; }
         
-        public TraineeForm TraineeForm { get; set; }
+        public ICollection<TraineeForm> TraineeForms { get; set; }
+
+        public User()
+        {
+            TraineeForms = new List<TraineeForm>();
+        }
     }
 
     public class Role
